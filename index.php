@@ -1,14 +1,13 @@
 <?
+session_cache_limiter(false);
 session_start();
 date_default_timezone_set('America/Denver');
 
+// composer bootstrapping
 require 'vendor/autoload.php';
 
 // initialize RedBean
 R::setup('sqlite:emcanon.sqlite');
-
-// initialize Opauth
-
 
 // initialize Slim, use Twig to render views
 $app = new \Slim\Slim(array(
@@ -24,13 +23,25 @@ $app->view->parserOptions = array(
     'strict_variables' => false,
     'autoescape' => true
 );
+$app->view->getEnvironment()->addGlobal("session", $_SESSION);
 $app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
 
+// prepare AuthProtect route middleware
+$protect = new AuthProtect($app);
 
 // ROUTES
 $app->get('/', function() use($app) {
     $test = R::findAll('writeup');
     $app->render('index.html');
+});
+
+$app->get('/test', function() use($app) {
+    echo "<pre>";
+    print_r($_SESSION);
+});
+
+$app->get('/secret', $protect->protect(), function() use($app) {
+    $app->render('secret.html');
 });
 
 $app->get('/review/:id', function($id) use($app) {
@@ -39,19 +50,37 @@ $app->get('/review/:id', function($id) use($app) {
     $app->render('review.html', $data);
 });
 
-$app->get('/auth/login(/:strategy(/:token))', function($action, $strategy = '', $token = '') use ($app) {  
-        require 'opauth.conf.php';
-        $opauth = new Opauth($config);
-        $opauth->run();
+$app->get('/auth/login(/:strategy(/:token))', function($action, $strategy = '', $token = '') use ($app) { 
+    // store page prior to login click for redirect
+    $_SESSION['authredirect'] = $_SERVER['HTTP_REFERER'];
+    require 'opauth.conf.php';
+    $opauth = new Opauth($config);
+    $opauth->run();
 });
 
 $app->post('/auth/response', function() use ($app) {
-           $response = unserialize(base64_decode($_POST['opauth']));
-        echo "<pre>";
-        print_r($response);
+    // get response
+    $response = unserialize(base64_decode($_POST['opauth']));
+    
+    // instantiate Opauth
+    require 'opauth.conf.php';
+    $Opauth = new Opauth($config, false);
+    
+    // custom authresponse handler
+    $authresponse = new AuthResponse($response, $Opauth);
+    $authresponse->login();
+    
+    // redirect to homepage
+    //$app->response->redirect('http://localhost/emcanon/', 303);
+ 
 });
 
+$app->get('/auth/logout', function() use($app) {
+    $_SESSION['loggedin'] = FALSE;
+    $_SESSION['user'] = array();
+    $app->response->redirect('http://localhost/emcanon/', 303);
+});
 
+// RUN
 $app->run();
 
-// initialize Opauth

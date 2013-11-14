@@ -1,6 +1,7 @@
 <?
 // script to load initial data into database
 
+date_default_timezone_set('America/Denver');
 require '../vendor/autoload.php';
 
 // initialize RedBean
@@ -8,7 +9,7 @@ R::setup('sqlite:../emcanon.sqlite');
 
 // emtpy old database
 R::nuke();
-
+echo "Nuked old dbase<br />";
 
 // ARTICLES
 // initial articles
@@ -62,14 +63,22 @@ echo "Created roles <br />";
 
 
 //USERS
-// initial users
-$me = R::dispense('user');
-$me->name = "Jeremy Voros";
-$me->title = "MD";
-$me->email = "jeremyvoros@gmail.com";
-$me->sharedRole[] = $editor;
-$me_id = R::store($me);
+// initial user
+$me                 = R::dispense('user');
+$me->name           = "Scott Weingert";
+$me->title          = "MD";
+$me->email          = "swine@emcrit.com";
+$me->sharedRole[]   = $editor;
+$me->created        = "2013-11-01 17:30:30";
+$me->last_visit     = date("Y-m-d H:i:s");
+$me->twitter        = "swinemcrit"; //twitter nickname
+$me->facebook       = "scotty.winegart"; //facebook nickname
+$me->google         = "swine@gmail.com"; //google email
+$me->gplus          = "https://plus.google.com/115814176630336921439"; //google plus
+$me->thumb          = "https://lh3.googleusercontent.com/-l0uuuL-hNEk/AAAAAAAAAAI/AAAAAAAAAAA/6aSflWv5hNQ/photo.jpg";
+$me->bio            = "Etsy trust fund yr hoodie selfies, beard scenester pop-up drinking vinegar pickled plaid iPhone cliche kale chips before they sold out. Hella scenester PBR&B High Life American Apparel, twee flannel. Pinterest cred chillwave, distillery food truck Bushwick locavore McSweeney's lo-fi selfies letterpress blog readymade tofu.";
 
+$me_id = R::store($me);
 echo "Created user <br />";
 
 

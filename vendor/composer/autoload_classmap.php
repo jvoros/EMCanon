@@ -6,6 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AuthProtect' => $vendorDir . '/emcanon/authprotect.php',
+    'AuthResponse' => $vendorDir . '/emcanon/authresponse.php',
     'Opauth' => $vendorDir . '/opauth/opauth/lib/Opauth/Opauth.php',
     'OpauthStrategy' => $vendorDir . '/opauth/opauth/lib/Opauth/OpauthStrategy.php',
     'PMParser' => $vendorDir . '/emcanon/pmparser.php',

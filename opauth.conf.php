@@ -52,6 +52,11 @@ $config = array(
         'Google' => array(
 	       'client_id' => '923529728247.apps.googleusercontent.com',
 	       'client_secret' => 'lLDpTx_qCnq8wE5ZRZaDKglK'
-        )
+        ),
+        
+        'Facebook' => array(
+           'app_id' => '444408008997389',
+           'app_secret' => '50acc8eb54ce3843502bb434a65bc733'
+       )
 	),
 );

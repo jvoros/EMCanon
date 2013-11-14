@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<a href="http://localhost/emcanon/auth/logout">LOGOUT</a>
 <h1>Hello Twiggy</h1>
+<ul>
+    <li><a href="/emcanon/test">Test</a></li>
+    <li><a href="/emcanon/secret">Secret</a></li>
+</ul>
+
+<p>
+    {{ session.user.name }}
+</p>
+
 
 {% endblock %}
