@@ -1,4 +1,8 @@
 <?
+/*********************************
+    INITIALIZE COMPONENTS
+*********************************/
+
 session_cache_limiter(false);
 session_start();
 date_default_timezone_set('America/Denver');
@@ -23,13 +27,18 @@ $app->view->parserOptions = array(
     'strict_variables' => false,
     'autoescape' => true
 );
-$app->view->getEnvironment()->addGlobal("session", $_SESSION);
+// give Twig templates access to session variables
+$app->view->getEnvironment()->addGlobal("session", $_SESSION); 
 $app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
 
 // prepare AuthProtect route middleware
 $protect = new AuthProtect($app);
 
-// ROUTES
+
+/*********************************
+    ROUTES
+*********************************/
+
 $app->get('/', function() use($app) {
     $test = R::findAll('writeup');
     $app->render('index.html');
@@ -50,37 +59,49 @@ $app->get('/review/:id', function($id) use($app) {
     $app->render('review.html', $data);
 });
 
+// AUTHORIZATION HANDLING
+
 $app->get('/auth/login(/:strategy(/:token))', function($action, $strategy = '', $token = '') use ($app) { 
-    // store page prior to login click for redirect
-    $_SESSION['authredirect'] = $_SERVER['HTTP_REFERER'];
+    // because of Opauth redirects, need to only store referring URL on first visit to the login page, set flag to ensure this is the case
+    if (empty($_SESSION['authredirect_flag'])) { 
+        // store page prior to login click for redirect
+        $_SESSION['authredirect'] = $_SERVER['HTTP_REFERER'];
+        // set flag
+        $_SESSION['authredirect_flag'] = 1;
+    }
+    
+    // Opauth library for external provider authentication
     require 'opauth.conf.php';
     $opauth = new Opauth($config);
-    $opauth->run();
 });
 
 $app->post('/auth/response', function() use ($app) {
-    // get response
-    $response = unserialize(base64_decode($_POST['opauth']));
+    // get Opauth response
+    $re = unserialize(base64_decode($_POST['opauth']));
     
     // instantiate Opauth
     require 'opauth.conf.php';
     $Opauth = new Opauth($config, false);
     
     // custom authresponse handler
-    $authresponse = new AuthResponse($response, $Opauth);
+    $authresponse = new AuthResponse($re, $Opauth);
     $authresponse->login();
     
+    // reset session variables
+    unset($_SESSION['opauth']);
+    unset($_SESSION['authredirect_flag']);
+    
     // redirect to homepage
-    //$app->response->redirect('http://localhost/emcanon/', 303);
- 
+    $app->response->redirect('http://localhost/emcanon/', 303);  
 });
 
 $app->get('/auth/logout', function() use($app) {
-    $_SESSION['loggedin'] = FALSE;
-    $_SESSION['user'] = array();
-    $app->response->redirect('http://localhost/emcanon/', 303);
+    unset($_SESSION['loggedin']);
+    unset($_SESSION['user']);
+    $app->redirect('http://localhost/emcanon/', 303);
 });
 
 // RUN
+
 $app->run();
 

@@ -86,7 +86,7 @@ class AuthResponse
             }
             
             // new user vs returning user
-            if (is_null($user)) { $this->newUser(); } else { $this->user = $user; }
+            if (is_null($user)) { $this->newUser(); } else { $user->last_visit = date("Y-m-d H:i:s"); $id = R::store($user); $this->user = $user; }
             $_SESSION['user'] = $this->user->export();
             $_SESSION['loggedin'] = TRUE;
         }
