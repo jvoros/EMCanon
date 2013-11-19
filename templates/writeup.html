@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="review">
+    <div class="title">
+        <h2>{{ wu.article.title }}</h2>
+        <p class="pubmedid"><a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ write.article.pmid }}">PubMed <i class="icon-external-link"></i></a></p>
+        <h4>by {{ wu.article.fname }} {{ wu.article.lname }} <i>et al.</i> | <i>{{ wu.article.journal }}</i> {{ wu.article.year }}</h4>
+        
+        
+    </div>
+    <div class="writeup">
+        {{ wu.text | raw }}
+        <h3>JOURNAL CLUB</h3>
+        <ol>
+            <li>How does the lack of blinding of providers introduce bias into this study?</li>
+            <li>How do inclusion and exclusion criteria affect the applicability of a study into clinical practice?</li>
+            <li>Are you surprised by the figure 1 on page 302? Is it surprising that a test can so perfectly delineate survivors from non-survivors? </li>
+            <li>Did this paper change the practice of emergency medicine, and if it did, how?</li>
+        </ol>
+    </div>
+    <div class="interact">
+        <span class="">DOES THIS PAPER BELONG IN THE CANON?</span>
+        <span class="voteyes"><span class="votecount">{{ wu.voteup }}</span> <a href="#">Yes <i class="icon-thumbs-up"></i></a></span>
+        <span class="voteno"><span class="votecount">{{ wu.votedown }}</span> <a href="#">No <i class="icon-thumbs-down"></i></a></span>
+        <span class="discuss"><span class="votecount">12</span> <a href="#">Discuss <i class="icon-comments"></i></a></span>
+    </div>
+</section>
+    
+<section class="byline">
+    <div class="interact interact-small">
+        <span class="">CANON-WORTHY:</span>
+        <span class="voteyes"><span class="votecount">{{ wu.voteup }}</span> <a href="#">Yes <i class="icon-thumbs-up"></i></a></span>
+        <span class="voteno"><span class="votecount">{{ wu.votedown }}</span> <a href="#">No <i class="icon-thumbs-down"></i></a></span>
+        <span class="discuss"><span class="votecount">12</span> <a href="#">Discuss <i class="icon-comments"></i></a></span>
+    </div>
+    
+    <ul>
+        <li><i class="labels icon-tags"></i>
+            {% for tag in wu.article.sharedTag %}<a href="#" class="tags">{{ tag.title }}</a>{% endfor %} 
+        </li>
+        <li><i class="labels icon-pencil"></i> {{ wu.user.name }}</li>
+        <li><i class="labels icon-calendar"></i> {{ wu.published | date('m/d/Y') }}</li>
+        <li><i class="labels icon-print"></i> <a href="#">PDF / Print Version</a></li>
+    </ul>
+
+</section>
+
+{% endblock %}

@@ -94,6 +94,13 @@ $tags = array(
 
 
 // DUMMY WRITEUPS
+$teasers = array(
+    'During a cardiopulmonary resuscitation, an end-tidal CO2 of less than 10mm Hg in patients with a PEA rhythm portends a poor prognosis.',
+    'Pariatur messenger bag tote bag tousled, officia Tonx dolore Marfa labore. Twee non messenger bag id sapiente fanny pack. Incididunt Truffaut seitan before they sold out, meh mixtape pug pour-over 8-bit readymade.',
+    'Sriracha jean shorts dolor, assumenda kitsch ea in tattooed forage. PBR reprehenderit gastropub squid. Terry Richardson placeat voluptate church-key lomo readymade.',
+    'Sustainable eiusmod locavore, excepteur authentic ethnic sriracha jean shorts aliquip American Apparel ennui commodo keffiyeh twee. Banksy plaid next level proident, quis reprehenderit cillum asymmetrical High Life Portland Wes Anderson'
+);
+
 $writeups = array(
     '<h2>Takehome</h2>
     During a cardiopulmonary resuscitation, an end-tidal CO2 of less than 10mm Hg in patients with a PEA rhythm portends a poor prognosis.
@@ -144,8 +151,7 @@ $writeups = array(
 
 
 // ARTICLES
-// initial articles
-$authorurls = array(
+$urls = array(  
     '2386557',
     'http://www.ncbi.nlm.nih.gov/pubmed/12930925',
     'http://www.ncbi.nlm.nih.gov/pubmed/11856794',
@@ -155,10 +161,7 @@ $authorurls = array(
     'http://www.ncbi.nlm.nih.gov/pubmed/11907287',
     'http://www.ncbi.nlm.nih.gov/pubmed/18596271',
     'http://www.ncbi.nlm.nih.gov/pubmed/8204123',
-    '10685714'
-);
-
-$urls = array(    
+    '10685714',
     '11856793',
     '2899772',
     'http://www.ncbi.nlm.nih.gov/pubmed/14411374',
@@ -197,10 +200,9 @@ $urls = array(
     '11103723'
 );
 
-// parse and store articles with dummy writeups
-foreach ($authorurls as $aurl) {
-    // 
-    $article = PMParser::getArticleFromURL($aurl);
+// parse and store articles with dummy writeups for the first 10
+foreach ($urls as $url) {
+    $article = PMParser::getArticleFromURL($url);
     $article['type'] = 'article';
     $articleBean = R::graph($article);
     
@@ -208,34 +210,43 @@ foreach ($authorurls as $aurl) {
     $num = array_rand($tags, 1);
     R::tag($articleBean, array($tags[$num]));
     
-    $article_id = R::store($articleBean);
+    // add some votes
+    $updown = array('voteup', 'votedown');
     
-    // add writeup to article
-    $wu = R::dispense('writeup');
-    $wu->article = $articleBean;
-    $wu->draft = 'false';
-    $wu->author = $users[rand(1,2)];
-    $wu->published = '2013-10-'.$articleBean->id;
-    $num = array_rand($writeups, 1);
-    $wu->text = $writeups[$num];
-    $wu_id = R::store($wu);
-    
-}
+    $vote1              = R::dispense('votedown');
+    $vote1->user        = $users[0];
+    $vote1->article     = $articleBean;
+    $vote1->timestamp   = date("Y-m-d H:i:s");
+    $vote1_id           = R::store($vote1);
 
-// parse and store articles w/o dummy writeups with EMCanon PMParser
-foreach ($urls as $url) {
-    $article = PMParser::getArticleFromURL($url);
-    $article['type'] = 'article'; // type is required for R::graph!!!
-    $articleBean = R::graph($article); // convert to bean
+    $vote2              = R::dispense('voteup');
+    $vote2->user        = $users[2];
+    $vote2->article     = $articleBean;
+    $vote2->timestamp   = date("Y-m-d H:i:s");
+    $vote2_id           = R::store($vote2);
     
-    // tag article with random tag
-    $num = array_rand($tags, 1);
-    R::tag($articleBean, array($tags[$num]));
+    $vote3              = R::dispense($updown[rand(0,1)]);
+    $vote3->user        = $users[1];
+    $vote3->article     = $articleBean;
+    $vote3->timestamp   = date("Y-m-d H:i:s");
+    $vote3_id           = R::store($vote3);
     
-    $article_id = R::store($articleBean);
-}
-echo "Parsed non-writeup articles.<br />";
+    // add writeups to first 10 articles
+    if ($articleBean->id < 11) {
+        $wu = R::dispense('writeup');
+        $wu->article = $articleBean;
+        $wu->draft = 'false';
+        $wu->user = $users[rand(1,2)];
+        $wu->published = date("Y-m-d H:i:s", mktime(0,0,0,10,$articleBean->id,2013));
+        $num = array_rand($writeups, 1);
+        $wu->teaser = $teasers[$num];
+        $wu->text = $writeups[$num];
+        $wu_id = R::store($wu);
+    }
 
+    // save the article
+    $article_id = R::store($articleBean);    
+}
 
 echo "Parsed articles with writeups<br />";
 

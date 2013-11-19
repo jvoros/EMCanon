@@ -32,15 +32,15 @@ class PMParser
         
         // parse the XML into bits we want
         $article = array(
-            'ref_pmid'      => (string) $xml->PubmedArticle->MedlineCitation->PMID,
-            'ref_year'      => (string) $xml->PubmedArticle->MedlineCitation->DateCreated->Year,
-            'ref_month'     => (string) $xml->PubmedArticle->MedlineCitation->DateCreated->Month,
-            'ref_day'       => (string) $xml->PubmedArticle->MedlineCitation->DateCreated->Day,
-            'ref_journal'   => (string) $xml->PubmedArticle->MedlineCitation->Article->Journal->Title,
-            'ref_title'     => (string) $xml->PubmedArticle->MedlineCitation->Article->ArticleTitle,
-            'ref_fname'     => (string) $xml->PubmedArticle->MedlineCitation->Article->AuthorList->Author[0]->ForeName,
-            'ref_lname'     => (string) $xml->PubmedArticle->MedlineCitation->Article->AuthorList->Author[0]->LastName,
-            'ref_abstract'  => (string) $xml->PubmedArticle->MedlineCitation->Article->Abstract->AbstractText
+            'pmid'      => (string) $xml->PubmedArticle->MedlineCitation->PMID,
+            'year'      => (string) $xml->PubmedArticle->MedlineCitation->DateCreated->Year,
+            'month'     => (string) $xml->PubmedArticle->MedlineCitation->DateCreated->Month,
+            'day'       => (string) $xml->PubmedArticle->MedlineCitation->DateCreated->Day,
+            'journal'   => (string) $xml->PubmedArticle->MedlineCitation->Article->Journal->Title,
+            'title'     => (string) $xml->PubmedArticle->MedlineCitation->Article->ArticleTitle,
+            'fname'     => (string) $xml->PubmedArticle->MedlineCitation->Article->AuthorList->Author[0]->ForeName,
+            'lname'     => (string) $xml->PubmedArticle->MedlineCitation->Article->AuthorList->Author[0]->LastName,
+            'abstract'  => (string) $xml->PubmedArticle->MedlineCitation->Article->Abstract->AbstractText
         );
         
         return $article;

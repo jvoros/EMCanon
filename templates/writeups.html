@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% for latest in all %}
 <section class="latest">
-    <h4>LATEST REVIEW</h4>
     <div class="title">
         <h2>{{ latest.article.title }}</h2>
         <p class="pubmedid"><a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ latest.article.pmid }}">PubMed <i class="icon-external-link"></i></a></p>
-        <h4>
-            {% if latest.article.lname is defined %}
+                <h4>
+            {% if latest.article.lname != '' %}
                 by {{ latest.article.fname }} {{ latest.article.lname }} <i>et al.</i> | 
             {% endif %}
             <i>{{ latest.article.journal }}</i> {{ latest.article.year }}
@@ -28,17 +28,10 @@
         <span class="discuss"><span class="votecount">12</span> <a href="#">Discuss <i class="icon-comments"></i></a></span>
     </div>
 </section>
-    
-<section class="about">
-    <h4>&nbsp;</h4>
-    <div>
-    <h3>The Emergency Medicine Canon</h3>
-    <p>Welcome to <strong>EM:Canon</strong>. We have collected the seminal papers in Emergency Medicine, the practice changers, the foundation of our specialty. Along with each paper, is a rigorous review/summary, the take-home message of the paper, and some prompts for a journal club.</p>
-    <p>Browse the papers. Vote on canon-worthy papers. Submit a paper you think belongs in the canon.</p>
-    </div>
-</section>
+{% endfor %}
+
+{% if next > 1 %} <a href="http://localhost/emcanon/writeups/{{ next }}">More Writeups</a> {% endif %}
+
+{{ dump(test) }}
 
 {% endblock %}
-
-
-

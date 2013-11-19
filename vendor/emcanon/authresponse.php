@@ -41,14 +41,14 @@ class AuthResponse
     
     private function newUser() {
         $this->user                 = R::dispense('user');
-        $this->user->created       = date("Y-m-d H:i:s");
-        $this->user->last_visit    = date("Y-m-d H:i:s");
-        $this->user->name          = $this->response['auth']['info']['name'];
-        $this->user->thumb         = $this->response['auth']['info']['image'];
+        $this->user->created        = date("Y-m-d H:i:s");
+        $this->user->last_visit     = date("Y-m-d H:i:s");
+        $this->user->name           = $this->response['auth']['info']['name'];
+        $this->user->thumb          = $this->response['auth']['info']['image'];
+        $this->user->email          = $this->response['auth']['info']['email'];
         
         //provider specific
         if ($this->provider == 'Google') {
-            $this->user->email     = $this->response['auth']['info']['email'];
             $this->user->google    = $this->response['auth']['info']['email'];
             $this->user->gplus     = $this->response['auth']['raw']['link'];
         }
