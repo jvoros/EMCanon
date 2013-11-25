@@ -36,11 +36,12 @@
 
 
 // TOP LEVEL
-body    { height: 100%; margin: 0; background-color: @back; .sans; font-size: 14px;  }
+html, body    { height: 100%; margin: 0; background-color: @back; .sans; font-size: 14px;  }
 h1, h2, h3, h4  { margin: 0 0 0.3em 0; font-weight: normal; color: @high; }
 p   { margin: 0 0 10px 0; }
 a   { color: @linkhigh; text-decoration: none; &:hover { text-decoration: underline; } }
-
+// http://ryanfait.com/resources/footer-stick-to-bottom-of-page/
+#wrap { min-height: 100%; height: auto !important; height: 100%; margin: 0 auto -100px;  }
 
 
 // HEADER
@@ -103,7 +104,8 @@ header { margin: 20px 0 40px 0; }
 
 
 // FOOTER
-footer { background-color: @contrast; padding: 15px; margin-top: 80px; width: 100%;  }
+.push { height: 100px; clear: both; }
+footer { height: 100px; background-color: @contrast;   width: 100%;  }
 
 
 // REVIEW PAGE

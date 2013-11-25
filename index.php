@@ -73,10 +73,7 @@ $app->get('/writeups(/:page)', function($page) use($app) {
         $wu->voteup = $wu->article->countOwn('voteup');
         $wu->votedown = $wu->article->countOwn('votedown');
     }
-    $test['totalpages'] = $totalpages;
-    $test['page'] = $page;
-    $test['next'] = $next;
-    $app->render('writeups.html', array('all' => $all, 'next' => $next, 'test' => $test));
+    $app->render('writeups.html', array('all' => $all, 'next' => $next));
 });
 
 
@@ -89,6 +86,10 @@ $app->get('/test', function() use($app) {
 
 $app->get('/secret', $protect->protect(), function() use($app) {
     $app->render('secret.html');
+});
+
+$app->get('/bs', function() use($app) {
+    $app->render('bs_base.html');
 });
 
 // AUTHORIZATION HANDLING
