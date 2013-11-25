@@ -1,42 +1,62 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<section class="latest">
-    <h4>LATEST REVIEW</h4>
-    <div class="title">
-        <h2>{{ latest.article.title }}</h2>
-        <p class="pubmedid"><a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ latest.article.pmid }}">PubMed <i class="icon-external-link"></i></a></p>
-        <h4>
-            {% if latest.article.lname is defined %}
-                by {{ latest.article.fname }} {{ latest.article.lname }} <i>et al.</i> | 
-            {% endif %}
-            <i>{{ latest.article.journal }}</i> {{ latest.article.year }}
-        </h4>
-        
+ <div class="welcome">
+    <div class="container">
+            <div class="greet-banner">WELCOME</div>
+            <p><strong>EM:Canon</strong> is an evolving collection of the most important papers in Emergency Medicine.<br />Browse the papers & reviews. Vote on canon-worthy papers. Submit a paper to the canon.</p>
+        </div>
     </div>
-    <div class="summary">
-        <p><span class="labels">TAKE HOME:</span> {{ latest.teaser|raw }} <a href="/emcanon/writeup/{{ latest.id }}">Read more...</a></p>
-        <p class="cats"><i class="labels icon-tags"></i> 
-            {% for tag in latest.article.sharedTag %}<a href="#" class="tags">{{ tag.title }}</a>{% endfor %} 
-        </p>
-        <p><i class="labels icon-pencil"></i> {{ latest.user.name }}</p>
-    </div>
-    <div class="interact">
-        <span class="">DOES THIS PAPER BELONG IN THE CANON?</span>
-        <span class="voteyes"><span class="votecount">{{ latest.voteup }}</span> <a href="#">Yes <i class="icon-thumbs-up"></i></a></span>
-        <span class="voteno"><span class="votecount">{{ latest.votedown }}</span> <a href="#">No <i class="icon-thumbs-down"></i></a></span>
-        <span class="discuss"><span class="votecount">12</span> <a href="#">Discuss <i class="icon-comments"></i></a></span>
-    </div>
-</section>
     
-<section class="about">
-    <h4>&nbsp;</h4>
-    <div>
-    <h3>The Emergency Medicine Canon</h3>
-    <p>Welcome to <strong>EM:Canon</strong>. We have collected the seminal papers in Emergency Medicine, the practice changers, the foundation of our specialty. Along with each paper, is a rigorous review/summary, the take-home message of the paper, and some prompts for a journal club.</p>
-    <p>Browse the papers. Vote on canon-worthy papers. Submit a paper you think belongs in the canon.</p>
-    </div>
-</section>
+    
+    <div class="container">
+        
+        <div class="sidebar">
+            <div class="canonical">
+                <a href="#"><i class="fa fa-arrow-circle-right"></i> Browse the <strong>EM:Canon</strong></a>
+            </div>
+            
+            <div class="sep"></div>
+            
+            <div class="action-panel">
+                <h4>SUBMIT A PAPER TO THE EM:CANON</h4>
+                <p>Think we're missing a classic? Submit it to <strong>EM:Canon</strong> for voting by entering the PubMed ID for the paper.</p>
+                <p>PMID: <input /></p>
+                
+            </div>
+            
+              <div class="action-panel">
+                <h4>GET INVOLVED</h4>
+                <p>Visit the complete <a href="#">EM:Canon</a> to discuss and vote on canon-worthy papers.</p>
+                <p>Interested in writing a review? <a href="#">Send us an e-mail</a> and we'll be in touch.</p>
+            </div>
+            
+        </div>
+        
+        
+        <div class="main">
+            
+            <h4>LATEST REVIEW</h4>
+            {% include "latest.html" %}
+            
+            <div class="latest-blog">
+                <h4>FROM THE BLOG</h4>
+                <h1>Here's a Blog Post Title</h1>
+                <p class="byline">11 Nov 2013 | Jeremy voros, MD <span class="tags"><i class="fa fa-tags"></i> toxicology</span></p>
+                <p>Sriracha jean shorts dolor, assumenda kitsch ea in tattooed forage. PBR reprehenderit gastropub squid. Terry Richardson placeat voluptate church-key lomo readymade.</p>
+            </div>
+            
+            
+            <h4>RECENT REVIEWS</h4>
+            {% for latest in recent %}
+                {% include "latest.html" %}
+            {% endfor %}
+            
+            <a href="http://localhost/emcanon/reviews/2">MORE REVIEWS <i class="fa fa-arrow-circle-right"></i></a>
+            
+        </div><!-- /main --> 
+        
+    </div><!-- /container -->
 
 {% endblock %}
 

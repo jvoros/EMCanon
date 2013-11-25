@@ -1,15 +1,8 @@
 @import 'normalize.less';
-@import 'grid.less'; //semantic grid
-
-
-// GRIDLESS VARIABLES & STRUCTURE
-@columns:       12;
-@column-width:  70;
-@gutter-width:  20;
-.container { width: 1080px; margin: 0 auto; overflow: hidden; }
-.newrow { .column(12); }
+@import 'elements.less';
 
 // fix box model
+* { margin: 0; padding: 0 }
 *, *:after, *:before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -19,115 +12,84 @@
 
 // COLORS / TYPOGRAPHY / MIXINS 
 // Colors
-@back:              rgb(231,231,231); 
-@high:              #E3242A; 
-@linkhigh:          #3FA9F5; 
-@contrast:          rgb(46,54,57);
-@contrast-light:    white;
-@gray:              #a4a4a4;
-
+@back:          white; 
+@high:          #E3242A; 
+@linkhigh:      #3FA9F5; 
+@dark:          rgb(46,54,57);
+@light:         white;
+@gray:          #a4a4a4;
+@lgray:         rgb(231,231,231); 
 
 // Type
-.sans   { font-family: 'Titillium Web', sans-serif; }
-.serif  { font-family: 'Droid Serif', serif; font-weight: normal; }
+.sans       { font-family: 'Titillium Web', sans-serif; }
+.sans-alt   { font-family: 'Open Sans', sans-serif; }
+.serif      { font-family: 'Droid Serif', serif; font-weight: normal; }
 
 // Mixins
-.card   { background-color: @contrast-light; padding: 1em 1em; }
-
 
 // TOP LEVEL
-html, body    { height: 100%; margin: 0; background-color: @back; .sans; font-size: 14px;  }
+html, body    { height: 100%; background-color: @back; .sans-alt; font-size: 14px;  }
 h1, h2, h3, h4  { margin: 0 0 0.3em 0; font-weight: normal; color: @high; }
-p   { margin: 0 0 10px 0; }
-a   { color: @linkhigh; text-decoration: none; &:hover { text-decoration: underline; } }
+h4 { font-size: 1.2em; }
+a { color: @linkhigh; text-decoration: none; &:hover { text-decoration: underline; } }
+p { line-height: 1.8em; }
 // http://ryanfait.com/resources/footer-stick-to-bottom-of-page/
 #wrap { min-height: 100%; height: auto !important; height: 100%; margin: 0 auto -100px;  }
-
+.container { width: 1060px; margin: 0 auto; }
 
 // HEADER
-nav     {   font-weight: 400;
-    ul  { float: right; margin: 8px; list-style: none; padding: 0; }
-    li  { display: inline-block; padding-left: 50px; }
-    a   { text-decoration: none; color: @high; }
-    a:hover { color: @contrast; }
+header { background-color: @lgray; padding: 5px; }
+header img { float: left; height: 70px; }
+nav { font-weight: 600; 
+    ul { list-style: none; padding: 30px 30px; }
+    li { display: inline; padding-left: 30px; }
+    a { text-decoration: none; color: @dark; }
+    a:hover { text-decoration: none; color: @high; }
 }
 
-#social { background-color: @contrast;  a { color: @contrast-light; } }
+// WELCOME STRIPE
+.welcome { background-color: @dark; color: @light; padding: 20px; }
+.greet-banner { color: @high; font-size: 3em; font-weight: 300; float: left; padding: 0 30px 0 0; margin-right: 30px; border-right: 1px solid @light;  }
+.welcome p { font-size: 1.2em; line-height: 1.5em; padding: 5px 0;}
 
-header { margin: 20px 0 40px 0; }
+.main { width: 72%; float: left; margin: 1em 0; }
 
-#mainnav { margin-top: 30px; }
-
-
-// INTERACT BUTTONS
-.interact { font-size: 0.8em; color: @back; background-color: @gray; padding: 10px;
-    .voteyes, .voteno { margin-left: 20px; }
-    .votecount { margin-right: 5px; padding: 0px 3px; background-color: @contrast; color: @back; }
-    .discuss { float: right; a { color: white; } }
-    .voteyes a { color: green; }
-    .voteno a { color: yellow; }
+// LATEST
+.latest { margin: 1em 0 7em; border-bottom: 1px solid @lgray; }
+.paper { .serif; margin-top: 1em; border-bottom: 1px solid @lgray;
+    h1, h2, h3, h4 { color: @dark; margin-bottom: 0.5em; }
+    h1 { font-weight: bold; }
+}
+.writeup { margin: 0.5em 0; 
+    p + p { margin-top: 2em; }
+    h2 { margin: 1em 0; }
+    ol { margin-left: 2em; li { margin-top: 1em; }}
+    .byline { border-bottom: 1px solid @lgray; padding-bottom: 0.5em; margin-bottom: 0.5em; }
+    .tags { float: right; }
+    .journal-club { background-color: @lgray; margin: 2em 0; padding: 0.01em 2em 2em; }
+}
+.interact { padding: 0.5em 0 1em;
+    ul { float: right; list-style: none; }
+    li { display: inline; margin: 0 1em 0 0; border: 0px solid @lgray; }
+    li:last-child { margin-right: 0; }
+    .count { font-size: 0.7em; padding: 0.2em 0.6em; background-color: @linkhigh; color: @back; .rounded(8px); }    
 }
 
-.interact-small { 
-    .voteyes, .voteno { margin-left: 10px; }
-    .votecount { margin-right: 2px; }
+// BLOG LATEST
+.latest-blog { padding: 1em; margin: -4em 0 3em; background-color: @lgray;
+    h1 { color: @dark; }
+    .tags { float: right; }
+    .byline { margin-bottom: 1em; }
+       
 }
 
-
-// FRONT PAGE
-// Latest Paper
-.latest { .column(8); font-size: 1.1em; margin-bottom: 1.7em; }
-.title  { .card; margin-bottom: 1px; h1, h2, h3, h4 { .serif; color: @contrast; } }
-.summary { .card; overflow: hidden; }
-
-// Something
-.about { .column(4); 
-    div { padding: 0 1em; font-size: 1.2em; }
-    h3 { font-weight: 700; }
+// SIDEBAR
+.sidebar { float: right; width: 25%; margin-top: 1em;}
+.action-panel { background-color: @lgray; margin-bottom: 1em; padding: 1em;  
+    h2 { color: @dark; }
+}
+.canonical { background-color: @high; text-align: center; margin: 0 0 1em; padding: 1em; 
+    a, a:hover { font-size: 1.4em; color: @light; }
 }
 
-// Teasers
-.teasers    { .row(12); }
-.teasers > div { .column(4,12); }
-.slug   { margin-bottom: 10px; 
-    h3, h4 { .serif; color: @contrast; } 
-    .slugtitle { .card; p:last-of-type { margin-bottom: 0; } }
-    
-}
-
-
-// WRITE UP
-.labels { color: @high; }
-.cats   { float: right; }
-.tags   { font-size: 0.8em; color: @contrast; background-color: @back; padding: 3px 5px; margin-left: 10px; }
-.pubmedid   { float: right; }
-
-
-// FOOTER
-.push { height: 100px; clear: both; }
-footer { height: 100px; background-color: @contrast;   width: 100%;  }
-
-
-// REVIEW PAGE
-.review { .column(8); font-size: 1.1em;
-    h2 { font-weight: bold; }
-    .title { font-size: 1.1em; line-height: 2em; }
-}
-.writeup { .card; }
-.byline { .column(4); padding-left: 10px; 
-    ul { padding-left: 0; list-style: none; margin-top: 0; }
-    li { padding: 1em 1em; border-bottom: 1px solid @contrast; }
-    .labels { margin-right: 1em; }
-}
-
-
-// ARCHIVE PAGE
-.archive { .column(9); 
-    .cat-title { background-color: @contrast; color: @high; padding: 0.2em 0.5em; margin-bottom: 0.5em; }
-}
-
-
-.archive-list { .column(3); font-size: 1.5em; background-color: @contrast; color: white; padding: 0.7em 1em; 
-    ul { padding-left: 0; list-style: none; margin-top: 0; }
-    
-}
+.sep { border-top: 2px solid @lgray; margin-bottom: 1em; }

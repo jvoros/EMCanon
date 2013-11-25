@@ -1,0 +1,22 @@
+<div class="latest">
+                
+    <div class="paper">
+        <h1>{{ latest.article.title }}</h1>
+        <h4>{% if latest.article.lname !="" %} by {{ latest.article.fname }} {{ latest.article.lname }} <i>et al.</i> |{% endif %}
+             {{ latest.article.journal }} | {{ latest.article.year }} | <a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ latest.article.pmid }}">PubMed <i class="fa fa-external-link"></i></a></h4>
+    </div>
+    <div class="writeup">
+        <div class="byline">10 Oct 2013 | Reviewer: {{ latest.user.name }} <span class="tags"><i class="fa fa-tags"></i> &nbsp; {% for tag in latest.article.sharedTag %}<a href="#" class="tags">{{ tag.title }}</a> {% endfor %}</span></div>
+        <p><strong>TAKEHOME MESSAGE: </strong><br />{{ latest.teaser|raw }}</p>
+    </div>
+    <div class="interact">
+        <a href="/emcanon/review/{{ latest.id }}">READ THE COMPLETE REVIEW <i class="fa fa-chevron-right"></i></a>
+        <ul>
+            <li><a href="#"><i class="fa fa-thumbs-up"></i> Canon-worthy</a> <span class="count">{{ latest.voteup }}</span></li>
+            <li><a href="#"><i class="fa fa-thumbs-down"></i> Drop it</a> <span class="count">{{ latest.votedown }}</span></li>
+            <li><a href="#"><i class="fa fa-comment"></i> Discuss</a> <span class="count">4</span></li>
+        </ul>
+        <div class="clear-fix"></div>
+    </div>
+</div>
+

@@ -45,7 +45,7 @@ $protect = new AuthProtect($app);
 *********************************/
 
 $app->get('/', function() use($app) {
-    $recent = R::findAll('writeup', ' draft = "false" ORDER BY published DESC LIMIT 5');
+    $recent = R::findAll('review', ' draft = "false" ORDER BY published DESC LIMIT 5');
     R::preload($recent, 'article,article.sharedTag|tag,user');
     foreach ($recent as $wu) {
         $wu->voteup = $wu->article->countOwn('voteup');
@@ -55,19 +55,19 @@ $app->get('/', function() use($app) {
     $app->render('index.html', array('latest' => $latest, 'recent' => $recent));
 });
 
-$app->get('/writeup/:id', function($id) use($app) {
-    $wu = R::load('writeup', $id);
+$app->get('/review/:id', function($id) use($app) {
+    $wu = R::load('review', $id);
     R::preload($wu, 'article,article.sharedTag|tag,user');
     $wu->voteup = $wu->article->countOwn('voteup');
     $wu->votedown = $wu->article->countOwn('votedown');
-    $app->render('writeup.html', array('wu' => $wu));
+    $app->render('review.html', array('latest' => $wu));
 });
 
-$app->get('/writeups(/:page)', function($page) use($app) {
+$app->get('/reviews(/:page)', function($page) use($app) {
     $limit = 5;
-    $totalpages = ceil(R::count('writeup')/$limit);
+    $totalpages = ceil(R::count('review')/$limit);
     if ($page < $totalpages) { $next = $page+1; } else { $next = FALSE; }
-    $all = R::findAll('writeup', ' draft = "false" ORDER BY published DESC LIMIT ?,?', array((($page-1)*$limit), $limit));
+    $all = R::findAll('review', ' draft = "false" ORDER BY published DESC LIMIT ?,?', array((($page-1)*$limit), $limit));
     R::preload($all, 'article,article.sharedTag|tag,user');
     foreach ($all as $wu) {
         $wu->voteup = $wu->article->countOwn('voteup');
