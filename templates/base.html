@@ -20,23 +20,35 @@
 
 </head>
 <body>
-    <header><div class="container">
+    <header>
         <a href="http://localhost/emcanon/"><img src="http://localhost/emcanon/img/logo.png" /></a>
         <nav>
-            <ul>
-                <li><a href="#">THE CANON</a></li>
-                <li><a href="#">REVIEWS</a></li>
-                <li><a href="#">ABOUT</a></li>
-                <li><a href="#">SUBMIT</a></li>
-                <li class="divider"></li>
-                {% if session.loggedin == 1 %}
+            <ul class="login">
+               {% if session.loggedin == 1 %}
                     <li><a href="http://localhost/emcanon/auth/logout">LOGOUT {{ session.user.name }}</a></li>
                 {% else %}
-                    <li><a href="#">LOGIN / REGISTER</a></li>
+                    <li><a href="#">LOGIN / REGISTER</a>
+                        <ul>
+                            <li>Login using:</li>
+                            <li><a href="http://localhost/emcanon/auth/login/facebook"><i class="fa fa-facebook"></i> Facebook</a></li>
+                            <li><a href="http://localhost/emcanon/auth/login/google"><i class="fa fa-google-plus"></i> Google</a></li>
+                            <li><a href="http://localhost/emcanon/auth/login/twitter"><i class="fa fa-twitter"></i> Twitter</a></li>
+                        </ul>
+                        
+                    </li>
                 {% endif %}
             </ul>
+            
+            <ul>
+                <li><a href="http://localhost/emcanon/canon">THE CANON</a></li>
+                <li><a href="http://localhost/emcanon/reviews">REVIEWS</a></li>
+                <li><a href="http://localhost/emcanon/about">ABOUT</a></li>
+                <li><a href="http://localhost/emcanon/submit">SUBMIT</a></li>
+            </ul>
+            
+            
         </nav>
-    </div></header>
+ </header>
             
         {% block content %}{% endblock %}
     

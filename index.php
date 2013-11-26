@@ -12,7 +12,17 @@ require 'vendor/autoload.php';
 
 // initialize RedBean
 R::setup('sqlite:emcanon.sqlite');
+$Rschema = R::$duplicationManager->getSchema();
+R::$duplicationManager->setTables($Rschema);
 R::freeze(true);
+
+// app wide utility functions
+function sort_articles_by_date($a, $b) {
+    $A = $a->year . $a->month . $a->day;
+    $B = $b->year . $b->month . $b->day;
+	if($A == $B){ return 0 ; }
+	return ($A < $B) ? -1 : 1;
+}
 
 // initialize Slim, use Twig to render views
 $app = new \Slim\Slim(array(
@@ -63,7 +73,7 @@ $app->get('/review/:id', function($id) use($app) {
     $app->render('review.html', array('latest' => $wu));
 });
 
-$app->get('/reviews(/:page)', function($page) use($app) {
+$app->get('/reviews(/:page)', function($page = 1) use($app) {
     $limit = 5;
     $totalpages = ceil(R::count('review')/$limit);
     if ($page < $totalpages) { $next = $page+1; } else { $next = FALSE; }
@@ -73,24 +83,50 @@ $app->get('/reviews(/:page)', function($page) use($app) {
         $wu->voteup = $wu->article->countOwn('voteup');
         $wu->votedown = $wu->article->countOwn('votedown');
     }
-    $app->render('writeups.html', array('all' => $all, 'next' => $next));
+    $app->render('reviews.html', array('recent' => $all, 'next' => $next, 'page' => $page));
 });
 
+$app->get('/canon', function() use($app) {
+    $canon = array();
+    $tags = R::findAll('tag', ' ORDER BY title ASC');
+    R::preload($tags, 'sharedArticle|article,*.ownReview|review');
+    $app->render('canon.html', array('tags' => $tags));
+});
+
+$app->get('/canon/:tag', function($tag) use($app) {
+    $tags = R::find('tag', ' title = ?', array($tag));
+    R::preload($tags, 'sharedArticle|article,*.ownReview|review');
+    $app->render('canon.html', array('tags' => $tags));
+}); 
 
 // TEST ROUTES
 
-$app->get('/test', function() use($app) {
+$app->get('/test-articles', function() use($app) {
+    $articles = R::findAll('article');
+    foreach ($articles as $article) {
+        foreach($article->ownComment as $comment) { $likes = $comment->countOwn('commentlike'); $comment->likes = $likes; }
+        $article->voteup = $article->countOwn('voteup');
+        $article->votedown = $article->countOwn('votedown');
+    }
+    $articles = R::exportAll($articles, true, array('article','review','comment'));
     echo "<pre>";
-    print_r($_SESSION);
+    print_r($articles);
+});
+
+$app->get('/test', function() use($app) {
+    $article = R::load('article', 1);
+    foreach($article->ownComment as $comment) { $likes = $comment->countOwn('commentlike'); $comment->likes = $likes; }
+    $article->voteup = $article->countOwn('voteup');
+    $article->votedown = $article->countOwn('votedown');
+    $article = R::exportAll($article, true, array('article','review','comment'));
+        echo "<pre>";
+    print_r($article);
 });
 
 $app->get('/secret', $protect->protect(), function() use($app) {
     $app->render('secret.html');
 });
 
-$app->get('/bs', function() use($app) {
-    $app->render('bs_base.html');
-});
 
 // AUTHORIZATION HANDLING
 

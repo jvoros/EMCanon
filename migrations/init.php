@@ -88,7 +88,7 @@ $tags = array(
     'pediatrics',
     'toxicology',
     'neurology',
-    'EMS',
+    'ems',
     'radiology'
 );
 
@@ -231,6 +231,24 @@ foreach ($urls as $url) {
     $vote3->timestamp   = date("Y-m-d H:i:s");
     $vote3_id           = R::store($vote3);
     
+    // add some comments
+    $comments           = R::dispense('comment', rand(2,4));
+    foreach($comments as $comment) {
+        $comment->article = $articleBean;
+        $comment->user = $users[rand(0,2)];
+        $comment->timestamp = date("Y-m-d H:i:s");
+        $comment->text = $teasers[array_rand($teasers, 1)];
+        $comment_id = R::store($comment);
+        
+        $like = R::dispense('commentlike');
+        $like->user = $users[rand(0,3)];
+        $like->comment = $comment;
+        $like->timestamp = date("Y-m-d H:i:s");
+        $like_id = R::store($like);
+        
+        
+    };
+    
     // add writeups to first 10 articles
     if ($articleBean->id < 11) {
         $wu = R::dispense('review');
@@ -248,7 +266,25 @@ foreach ($urls as $url) {
     $article_id = R::store($articleBean);    
 }
 
-echo "Parsed articles with writeups<br />";
+echo "Parsed articles with writeups, votes, comments<br />";
+
+
+// BLOG
+$blog               = R::dispense('blog');
+$blog->user         = $users[1];
+$blog->teaser       = $teasers[array_rand($teasers, 1)];
+$blog->text         = $writeups[array_rand($writeups, 1)];
+$blog->draft        = FALSE;
+$blog->published    = date("Y-m-d H:i:s");
+$blog_id            = R::store($blog);
+
+$bloglike           = R::dispense('bloglike');
+$bloglike->user     = $users[rand(0,3)];
+$bloglike->blog     = $blog;
+$bloglike->timestamp = date("Y-m-d H:i:s");
+$bloglike_id        = R::store($bloglike);
+
+echo "Made a blog entry with a 'like'<br />";
 
 
 // URLS FOR ALL THE ARTICLES

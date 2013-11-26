@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+    
+    <div class="container">
+        
+        <div class="sidebar">
+            <div class="canonical">
+                <a href="#"><i class="fa fa-arrow-circle-right"></i> Browse the <strong>EM:Canon</strong></a>
+            </div>
+            
+            <div class="sep"></div>
+            
+            <div class="action-panel">
+                <h4>SUBMIT A PAPER TO THE EM:CANON</h4>
+                <p>Think we're missing a classic? Submit it to <strong>EM:Canon</strong> for voting by entering the PubMed ID for the paper.</p>
+                <p>PMID: <input /></p>
+                
+            </div>
+            
+              <div class="action-panel">
+                <h4>GET INVOLVED</h4>
+                <p>Visit the complete <a href="#">EM:Canon</a> to discuss and vote on canon-worthy papers.</p>
+                <p>Interested in writing a review? <a href="#">Send us an e-mail</a> and we'll be in touch.</p>
+            </div>
+            
+        </div>
+        
+        
+        <div class="main">
+            
+            {% for latest in recent %}
+                {% include "latest.html" %}
+            {% endfor %}
+      
+            {% if page > 1 %} <a href="http://localhost/emcanon/reviews/{{ page - 1 }}"><i class="fa fa-arrow-circle-left"></i> NEWER REVIEWS</a>&nbsp;|&nbsp;{% endif %}
+            {% if next > 1 %} <a href="http://localhost/emcanon/reviews/{{ next }}">OLDER REVIEWS <i class="fa fa-arrow-circle-right"></i></a> {% endif %}
+            
+        </div><!-- /main --> 
+        
+    </div><!-- /container -->
+
+{% endblock %}
+

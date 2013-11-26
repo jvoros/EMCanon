@@ -3,7 +3,9 @@
 <div class="container">
     
     <div class="sidebar">
-    
+        <div class="action-panel">
+            
+        </div>
     </div>
     
     <div class="main">
@@ -14,6 +16,14 @@
         </div>
     <div class="writeup">
         <p class="byline">10 Oct 2013 | Reviewer: {{ latest.user.name }} <span class="tags"><i class="fa fa-tags"></i> &nbsp; {% for tag in latest.article.sharedTag %}<a href="#" class="tags">{{ tag.title }}</a> {% endfor %}</span></p>
+        <div class="interact left">
+            <ul>
+                <li><a href="#"><i class="fa fa-thumbs-up"></i> Canon-worthy</a> <span class="count">{{ latest.voteup }}</span></li>
+                <li><a href="#"><i class="fa fa-thumbs-down"></i> Drop it</a> <span class="count">{{ latest.votedown }}</span></li>
+                <li><a href="#"><i class="fa fa-comment"></i> Discuss</a> <span class="count">4</span></li>
+            </ul>
+        </div>
+        
         <p>{{ latest.text|raw }}</p>
         <div class="journal-club">
             <h2>JOURNAL CLUB</h2>
