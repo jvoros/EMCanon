@@ -19,7 +19,7 @@ class AuthProtect
     public function protect() {
         return function() {        
             if ($_SESSION['loggedin'] == FALSE) {
-                $this->app->response->redirect('http://localhost/emcanon/', 303);
+                $this->app->response->redirect(BASE_URL . '/login', 303);
             }
         };
     }

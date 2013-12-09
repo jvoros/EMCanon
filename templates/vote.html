@@ -1,0 +1,21 @@
+{% if article.voteflag %}
+
+<li><i class="fa fa-thumbs-up"></i> Canon-worthy <span class="count">{{ article.voteup }}</span></li>
+<li><i class="fa fa-thumbs-down"></i> Drop it <span class="count">{{ article.votedown }}</span></li>
+<li><a href="#"><i class="fa fa-comment"></i> Discuss</a> <span class="count">{{ article.comment }}</span></li>
+
+
+{% elseif session.user is not empty %}
+
+<li><a class="interact-vote" href="{{ base_url }}/interact/vote/up/{{ article.id }}"><i class="fa fa-thumbs-up"></i> Canon-worthy</a> <span class="count">{{ article.voteup }}</span></li>
+<li><a class="interact-vote" href="{{ base_url }}/interact/vote/down/{{ article.id }}"><i class="fa fa-thumbs-down"></i> Drop it</a> <span class="count">{{ article.votedown }}</span></li>
+<li><a href="#"><i class="fa fa-comment"></i> Discuss</a> <span class="count">{{ article.comment }}</span></li>
+
+{% else %}
+
+<li><a href="{{ base_url }}/login"><i class="fa fa-thumbs-up"></i> Canon-worthy</a> <span class="count">{{ article.voteup }}</span></li>
+<li><a href="{{ base_url }}/login"><i class="fa fa-thumbs-down"></i> Drop it</a> <span class="count">{{ article.votedown }}</span></li>
+<li><a href="#"><i class="fa fa-comment"></i> Discuss</a> <span class="count">{{ article.comment }}</span></li>
+
+{% endif %}
+

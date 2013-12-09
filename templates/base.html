@@ -12,50 +12,46 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic,300,300italic,600,600italic' rel='stylesheet' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
-        
     <!-- LESS Stylesheet & development JS file -->
-    <link href="http://localhost/emcanon/css/styles.less" rel="stylesheet/less" type="text/css"  />
-    <script src="http://localhost/emcanon/js/less.js" type="text/javascript"></script>
+    <link href="{{ base_url }}/css/styles.less" rel="stylesheet/less" type="text/css"  />
+    <script src="{{ base_url }}/js/less.js" type="text/javascript"></script>
+    
+    <!-- jQuery -->
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 
 
 </head>
 <body>
     <header>
-        <a href="http://localhost/emcanon/"><img src="http://localhost/emcanon/img/logo.png" /></a>
+        <a href="{{ base_url }}"><img src="{{ base_url }}/img/logo.png" /></a>
         <nav>
             <ul class="login">
-               {% if session.loggedin == 1 %}
-                    <li><a href="http://localhost/emcanon/auth/logout">LOGOUT {{ session.user.name }}</a></li>
-                {% else %}
-                    <li><a href="#">LOGIN / REGISTER</a>
-                        <ul>
-                            <li>Login using:</li>
-                            <li><a href="http://localhost/emcanon/auth/login/facebook"><i class="fa fa-facebook"></i> Facebook</a></li>
-                            <li><a href="http://localhost/emcanon/auth/login/google"><i class="fa fa-google-plus"></i> Google</a></li>
-                            <li><a href="http://localhost/emcanon/auth/login/twitter"><i class="fa fa-twitter"></i> Twitter</a></li>
-                        </ul>
-                        
-                    </li>
-                {% endif %}
+            {% if session.loggedin == 1 %}
+                <li><a href="{{ base_url }}/auth/logout">LOGOUT {{ session.user.name }}</a></li>
+            {% else %}
+                <li><a href="#">LOGIN / REGISTER</a>
+                    <ul>
+                        <li>Login using:</li>
+                        <li><a href="{{ base_url }}/auth/login/facebook"><i class="fa fa-facebook"></i> Facebook</a></li>
+                        <li><a href="{{ base_url }}/auth/login/google"><i class="fa fa-google-plus"></i> Google</a></li>
+                        <li><a href="{{ base_url }}/auth/login/twitter"><i class="fa fa-twitter"></i> Twitter</a></li>
+                    </ul>
+                </li>
+            {% endif %}
             </ul>
-            
             <ul>
-                <li><a href="http://localhost/emcanon/canon">THE CANON</a></li>
-                <li><a href="http://localhost/emcanon/reviews">REVIEWS</a></li>
-                <li><a href="http://localhost/emcanon/about">ABOUT</a></li>
-                <li><a href="http://localhost/emcanon/submit">SUBMIT</a></li>
+                <li><a href="{{ base_url }}/canon">THE CANON</a></li>
+                <li><a href="{{ base_url }}/reviews">REVIEWS</a></li>
+                <li><a href="{{ base_url }}/about">ABOUT</a></li>
+                <li><a href="{{ base_url }}/submit">SUBMIT</a></li>
             </ul>
-            
-            
         </nav>
- </header>
+    </header>
             
-        {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
     
-    <script type="text/javascript">
-        
-    
-    </script>
+    <script src="{{ base_url }}/js/app.js" type="text/javascript"></script>
+    <script type="text/javascript"></script>
     
 </body>
 </html>

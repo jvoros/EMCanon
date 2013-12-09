@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+ <div class="welcome">
+    <div class="container">
+            <div class="greet-banner">WELCOME</div>
+            <p><strong>EM:Canon</strong> is an evolving collection of the most important papers in Emergency Medicine.<br />Browse the papers & reviews. Vote on canon-worthy papers. Submit a paper to the canon.</p>
+        </div>
+    </div>
+    
+    
+    <div class="container">
+        
+        <div class="main">
+            <ul>
+                <li>Login using:</li>
+                <li><a href="{{ base_url }}/auth/login/facebook"><i class="fa fa-facebook"></i> Facebook</a></li>
+                <li><a href="{{ base_url }}/auth/login/google"><i class="fa fa-google-plus"></i> Google</a></li>
+                <li><a href="{{ base_url }}/auth/login/twitter"><i class="fa fa-twitter"></i> Twitter</a></li>
+            </ul>
+            
+        </div><!-- /main --> 
+        
+    </div><!-- /container -->
+
+{% endblock %}
+
+
+

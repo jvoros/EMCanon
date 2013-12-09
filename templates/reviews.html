@@ -33,8 +33,8 @@
                 {% include "latest.html" %}
             {% endfor %}
       
-            {% if page > 1 %} <a href="http://localhost/emcanon/reviews/{{ page - 1 }}"><i class="fa fa-arrow-circle-left"></i> NEWER REVIEWS</a>&nbsp;|&nbsp;{% endif %}
-            {% if next > 1 %} <a href="http://localhost/emcanon/reviews/{{ next }}">OLDER REVIEWS <i class="fa fa-arrow-circle-right"></i></a> {% endif %}
+            {% if page > 1 %} <a href="{{ base_url }}/reviews/{{ page - 1 }}"><i class="fa fa-arrow-circle-left"></i> NEWER REVIEWS</a>&nbsp;|&nbsp;{% endif %}
+            {% if next > 1 %} <a href="{{ base_url }}/reviews/{{ next }}">OLDER REVIEWS <i class="fa fa-arrow-circle-right"></i></a> {% endif %}
             
         </div><!-- /main --> 
         

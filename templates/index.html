@@ -21,7 +21,8 @@
             <div class="action-panel">
                 <h4>SUBMIT A PAPER TO THE EM:CANON</h4>
                 <p>Think we're missing a classic? Submit it to <strong>EM:Canon</strong> for voting by entering the PubMed ID for the paper.</p>
-                <p>PMID: <input /></p>
+                <form id="add-article">PMID: <input id="add-PMID" name="PMID" /></form>
+                <p class="add-response"></p>
                 
             </div>
             
@@ -52,7 +53,7 @@
                 {% include "latest.html" %}
             {% endfor %}
             
-            <a href="http://localhost/emcanon/reviews/2">MORE REVIEWS <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ base_url }}/reviews/2">MORE REVIEWS <i class="fa fa-arrow-circle-right"></i></a>
             
         </div><!-- /main --> 
         

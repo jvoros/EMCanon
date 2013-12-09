@@ -10,54 +10,48 @@
     
     <div class="main">
         <div class="paper">
-            <h1>{{ latest.article.title }}</h1>
-            <h4>{% if latest.article.lname !="" %} by {{ latest.article.fname }} {{ latest.article.lname }} <i>et al.</i> |{% endif %}
-             {{ latest.article.journal }} | {{ latest.article.year }}| <a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ latest.article.pmid }}">PubMed <i class="fa fa-external-link"></i></a></h4>
+            <h1>{{ article.title }}</h1>
+            <h4>{% if article.lname !="" %} by {{ article.fname }} {{ article.lname }} <i>et al.</i> |{% endif %}
+             {{ article.journal }} | {{ article.year }}| <a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ article.pmid }}">PubMed <i class="fa fa-external-link"></i></a></h4>
         </div>
-    <div class="writeup">
-        <p class="byline">10 Oct 2013 | Reviewer: {{ latest.user.name }} <span class="tags"><i class="fa fa-tags"></i> &nbsp; {% for tag in latest.article.sharedTag %}<a href="#" class="tags">{{ tag.title }}</a> {% endfor %}</span></p>
-        <div class="interact left">
-            <ul>
-                <li><a href="#"><i class="fa fa-thumbs-up"></i> Canon-worthy</a> <span class="count">{{ latest.voteup }}</span></li>
-                <li><a href="#"><i class="fa fa-thumbs-down"></i> Drop it</a> <span class="count">{{ latest.votedown }}</span></li>
-                <li><a href="#"><i class="fa fa-comment"></i> Discuss</a> <span class="count">4</span></li>
-            </ul>
+        <div class="writeup">
+            {% for review in article.ownReview %}
+            <p class="byline">10 Oct 2013 | Reviewer: {{ review.user.name }} <span class="tags"><i class="fa fa-tags"></i> &nbsp; {% for tag in article.sharedTag %}<a href="#" class="tags">{{ tag.title }}</a> {% endfor %}</span></p>
+            <div class="interact left">
+                <ul>
+                    <li><a href="{{ base_url }}/interact/vote/up/{{ article.id }}"><i class="fa fa-thumbs-up"></i> Canon-worthy</a> <span class="count">{{ article.voteup }}</span></li>
+                    <li><a href="{{ base_url }}/interact/vote/down/{{ article.id }}"><i class="fa fa-thumbs-down"></i> Drop it</a> <span class="count">{{ article.votedown }}</span></li>
+                    <li><a href="#"><i class="fa fa-comment"></i> Discuss</a> <span class="count">{% set count = article.ownComment|length %}{{ count }}</span></li>
+                </ul>
+            </div>
+        
+            <p>{{ review.text|raw }}</p>
+            <div class="journal-club">
+                <h2>JOURNAL CLUB</h2>
+                <ol>
+                    <li>How does the lack of blinding of providers introduce bias into this study?</li>
+                    <li>How do inclusion and exclusion criteria affect the applicability of a study into clinical practice?</li>
+                    <li>Are you surprised by the figure 1 on page 302? Is it surprising that a test can so perfectly delineate survivors from non-survivors? </li>
+                    <li>Did this paper change the practice of emergency medicine, and if it did, how?</li>
+                </ol>
+            </div>
+            {% endfor %}
+        </div><!-- /writeup -->
+        
+        <div class="comments">
+            <h1>COMMENTS</h1>
+            {% for comment in article.ownComment %}
+            <div class="comment">
+                <div class="comment-meta"><span class="pull-right"><i class="fa fa-thumbs-o-up"></i> Like {{ comment.likes }}</span> {{ comment.timestamp | date("m/d/Y") }} - {{ comment.user.name }}</div>
+                <div class="text"><p>{{ comment.text }}</p></div>
+            </div>
+            {% endfor %}   
         </div>
         
-        <p>{{ latest.text|raw }}</p>
-        <div class="journal-club">
-            <h2>JOURNAL CLUB</h2>
-            <ol>
-                <li>How does the lack of blinding of providers introduce bias into this study?</li>
-                <li>How do inclusion and exclusion criteria affect the applicability of a study into clinical practice?</li>
-                <li>Are you surprised by the figure 1 on page 302? Is it surprising that a test can so perfectly delineate survivors from non-survivors? </li>
-                <li>Did this paper change the practice of emergency medicine, and if it did, how?</li>
-            </ol>
-        </div>
-    </div>
+        
     </div>
     
 </div>
-
-<!--
-<section class="byline">
-    <div class="interact interact-small">
-        <span class="">CANON-WORTHY:</span>
-        <span class="voteyes"><span class="votecount">{{ wu.voteup }}</span> <a href="#">Yes <i class="icon-thumbs-up"></i></a></span>
-        <span class="voteno"><span class="votecount">{{ wu.votedown }}</span> <a href="#">No <i class="icon-thumbs-down"></i></a></span>
-        <span class="discuss"><span class="votecount">12</span> <a href="#">Discuss <i class="icon-comments"></i></a></span>
-    </div>
-    
-    <ul>
-        <li><i class="labels icon-tags"></i>
-            {% for tag in wu.article.sharedTag %}<a href="#" class="tags">{{ tag.title }}</a>{% endfor %} 
-        </li>
-        <li><i class="labels icon-pencil"></i> {{ wu.user.name }}</li>
-        <li><i class="labels icon-calendar"></i> {{ wu.published | date('m/d/Y') }}</li>
-        <li><i class="labels icon-print"></i> <a href="#">PDF / Print Version</a></li>
-    </ul>
-
-</section>
 
 {% endblock %}
 

@@ -14,9 +14,8 @@
     </div>
     
     <div class="main">
-        
         {% for tag in tags %}
-        <h1 id="{{ tag.title }}">{{ tag.title|upper }}</h1>
+            <h1 id="{{ tag.title }}">{{ tag.title|upper }}</h1>
             {% for article in tag.sharedArticle %} 
             <div class="canon-entry">
                 <div class="paper">
@@ -25,13 +24,13 @@
                     {{ article.journal }} | {{ article.year }} | <a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ article.pmid }}">PubMed <i class="fa fa-external-link"></i></a></h4>
                 </div>  
                 {% if article.ownReview is not empty %}
-                    {% for review in article.ownReview %}<p><strong>REVIEW: </strong>{{ review.teaser|raw }} <a href="/emcanon/review/{{ review.id }}">Read more...</a></p>{% endfor %}
+                    {% for review in article.ownReview %}<p><strong>REVIEW: </strong>{{ review.teaser|raw }} <a href="{{ base_url }}/review/{{ review.id }}">Read more...</a></p>{% endfor %}
                 {% endif %}
                 <div class="interact">
                     <ul>
-                        <li><a href="#"><i class="fa fa-thumbs-up"></i> Canon-worthy</a> <span class="count">4</span></li>
-                        <li><a href="#"><i class="fa fa-thumbs-down"></i> Drop it</a> <span class="count">2</span></li>
-                        <li><a href="#"><i class="fa fa-comment"></i> Discuss</a> <span class="count">4</span></li>
+                        <li><a href="{{ base_url }}/interact/vote/up/{{ article.id }}"><i class="fa fa-thumbs-up"></i> Canon-worthy</a> <span class="count">{{ article.voteup }}</span></li>
+                        <li><a href="{{ base_url }}/interact/vote/down/{{ article.id }}"><i class="fa fa-thumbs-down"></i> Drop it</a> <span class="count">{{ article.votedown }}</span></li>
+                        <li><a href="#"><i class="fa fa-comment"></i> Discuss</a> <span class="count">{{ article.comments }}</span></li>
                     </ul>
                 </div>
             </div>
@@ -40,23 +39,6 @@
         
         {% endfor %}
         
-       
-        <!-- 
-        <div class="paper">
-            <h3>{{ latest.article.title }}</h3>
-            <h4>{% if latest.article.lname !="" %} by {{ latest.article.fname }} {{ latest.article.lname }} <i>et al.</i> |{% endif %}
-             {{ latest.article.journal }} | {{ latest.article.year }} | <a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ latest.article.pmid }}">PubMed <i class="fa fa-external-link"></i></a></h4>
-        </div>
-        <div class="writeup">
-            <p>{{ latest.teaser|raw }} <a href="/emcanon/review/{{ latest.id }}">Read more...</a></p>
-            <div class="interact pull-right">
-                <ul>
-                    <li><a href="#"><i class="fa fa-thumbs-up"></i> Canon-worthy</a> <span class="count">{{ latest.voteup }}</span></li>
-                    <li><a href="#"><i class="fa fa-thumbs-down"></i> Drop it</a> <span class="count">{{ latest.votedown }}</span></li>
-                    <li><a href="#"><i class="fa fa-comment"></i> Discuss</a> <span class="count">4</span></li>
-                </ul>
-            </div>
-        </div> -->
     </div>
 </div>
 {% endblock %}

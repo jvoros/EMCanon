@@ -10,11 +10,9 @@
         <p><strong>TAKEHOME MESSAGE: </strong><br />{{ latest.teaser|raw }}</p>
     </div>
     <div class="interact">
-        <a href="/emcanon/review/{{ latest.id }}">READ THE COMPLETE REVIEW <i class="fa fa-chevron-right"></i></a>
+        <a href="{{ base_url }}/review/{{ latest.id }}">READ THE COMPLETE REVIEW <i class="fa fa-chevron-right"></i></a>
         <ul class="pull-right"> 
-            <li><a href="#"><i class="fa fa-thumbs-up"></i> Canon-worthy</a> <span class="count">{{ latest.voteup }}</span></li>
-            <li><a href="#"><i class="fa fa-thumbs-down"></i> Drop it</a> <span class="count">{{ latest.votedown }}</span></li>
-            <li><a href="#"><i class="fa fa-comment"></i> Discuss</a> <span class="count">4</span></li>
+            {% include 'vote.html' with { 'article' : latest } %}
         </ul>
         <div class="clear-fix"></div>
     </div>

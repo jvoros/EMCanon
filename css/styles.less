@@ -103,9 +103,19 @@ nav { font-weight: 600;
 
 .sep { border-top: 2px solid @lgray; margin-bottom: 1em; }
 
+#add-article  { margin: 0.5em 0; }
+
 // CANON
 .canon-entry { margin-bottom: 2em; }
 .canon-nav { position: fixed; width: 15%;
     ul {list-style: none; }
     li { font-size: 1.2em; margin-bottom: 0.5em; }
 }
+
+// REVIEW
+.comments { margin-top: 2em; }
+.comment { margin: 1em; padding: 3em; }
+.comment:nth-child(2n+1) { background-color: @lgray; 
+    .comment-meta { border-bottom: 1px solid @light; }
+}
+.comment-meta { padding: 0.5em; margin-bottom: 1em; border-bottom: 1px solid @lgray; }

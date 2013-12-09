@@ -225,11 +225,15 @@ foreach ($urls as $url) {
     $vote2->timestamp   = date("Y-m-d H:i:s");
     $vote2_id           = R::store($vote2);
     
-    $vote3              = R::dispense($updown[rand(0,1)]);
-    $vote3->user        = $users[1];
-    $vote3->article     = $articleBean;
-    $vote3->timestamp   = date("Y-m-d H:i:s");
-    $vote3_id           = R::store($vote3);
+    // random votes from me for testing of voting
+    $shouldvote         = rand(1,9);
+    if($shouldvote < 4) {
+        $vote3              = R::dispense($updown[rand(0,1)]);
+        $vote3->user        = $users[1];
+        $vote3->article     = $articleBean;
+        $vote3->timestamp   = date("Y-m-d H:i:s");
+        $vote3_id           = R::store($vote3);
+    }
     
     // add some comments
     $comments           = R::dispense('comment', rand(2,4));

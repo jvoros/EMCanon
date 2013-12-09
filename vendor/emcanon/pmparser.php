@@ -28,7 +28,8 @@ class PMParser
     {    
         $url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&id=" . $pmid; // NCBI API to get XML summary by PMID
         
-        $xml = simplexml_load_file($url);
+        try { $xml = simplexml_load_file($url); 
+            } catch (Exception $e) { return 'Message: ' . $e->getMessage(); }
         
         // parse the XML into bits we want
         $article = array(
